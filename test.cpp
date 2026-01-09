@@ -61,3 +61,4 @@ int main(int argc, char** argv)
 				//ADD random blur
 				// SAVE new image	
 	//FINALISE MPI
+}
