@@ -42,9 +42,9 @@ int main(int argc, char** argv)
 	if (process_rank == 0) {
 		//Open image folder
 		
-		int  = count_images();
+		int image_count = count_images();
 		//COUNT image files
-		printf("There are  - %d\n - number of images", );
+		printf("There are  - %d\n - number of images", image_count);
 			//ADD image file name to array
 		//CLOSE image folder
 		//CALCULATE batch size = Number of images/ Number of processes
