@@ -5,9 +5,9 @@
 #include <dirent.h>
 
 int count_images() {
-    DIR* FP;        /* represent the directory */
+    DIR* FD;        /* represent the directory */
     struct dirent* image;   /* represent the file */
-    char* target_dir = "."; /* current directory */
+    char* target_dir = "/mnt/shared/cpp.test/images"; /* current directory */
 	int image_count = 0;
     /* Scanning the target directory */
     FD = opendir(target_dir);
@@ -29,20 +29,22 @@ int count_images() {
     return image_count;
 }
 
-int main()
+int main(int argc, char** argv)
 {	//INITIALISE MPI
 	MPI_Init(&argc, &argv);
 	//Get MPI Variables
 		// GET Number of processes (MPI_COMM_size)
-		
+	int process_rank, number_of_processes;	
 	MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
 		// Get Rank of process (MPI_COMM_rank)
 	MPI_Comm_size(MPI_COMM_WORLD, &number_of_processes);
 	//IF Master:
 	if (process_rank == 0) {
 		//Open image folder
-			//COUNT image files
-		printf("There are  - %s\n - number of images", count_images());
+		
+		int  = count_images();
+		//COUNT image files
+		printf("There are  - %d\n - number of images", );
 			//ADD image file name to array
 		//CLOSE image folder
 		//CALCULATE batch size = Number of images/ Number of processes
