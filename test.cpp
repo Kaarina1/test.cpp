@@ -7,7 +7,7 @@
 int count_images() {
     DIR* FD;        /* represent the directory */
     struct dirent* image;   /* represent the file */
-    char* target_dir = "/mnt/shared/cpp.test/images"; /* current directory */
+    const char* target_dir = "/mnt/shared/cpp.test/images"; /* current directory */
 	int image_count = 0;
     /* Scanning the target directory */
     FD = opendir(target_dir);
@@ -45,13 +45,13 @@ int main(int argc, char** argv)
 		int image_count = count_images();
 		//COUNT image files
 		printf("There are  - %d\n - number of images", image_count);
-			//ADD image file name to array
-		//CLOSE image folder
 		//CALCULATE batch size = Number of images/ Number of processes
+		images_per_process = image_count/number_of_processes
 		//SEND Workers Rank and batch size (MPI_Bcast)
+		MPI_Bcast(&images_per_process,1,MPI_INT,0,MPI_COMM_WORLD)
 	}
-		
-	
+	else{
+	printf("I am process %d\n. I will process %\n images", process_rank ,image_count);
 	//ELSE For each Worker
 		//CALCULATE start = rank*batch size
 		//FOR each image in batch given (from start to batch size)
@@ -60,5 +60,7 @@ int main(int argc, char** argv)
 				//ADD random noise
 				//ADD random blur
 				// SAVE new image	
+	}
+		
 	//FINALISE MPI
 }
