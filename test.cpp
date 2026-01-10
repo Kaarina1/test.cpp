@@ -38,8 +38,8 @@ int count_images() {
 }
 
 void alter_image(const std::string& image_path_in,const std::string& image_path_out){
-	Mat image_data = imread(image_path);	
-	imwrite(image_path,image_data);
+	Mat image_data = imread(image_path_in);	
+	imwrite(image_path_out,image_data);
 }
 
 void process_images(int start, int image_amount){
@@ -67,8 +67,7 @@ void process_images(int start, int image_amount){
 			else{
 				for(std::string image_name : image_names){
 					std::string image_path_in = std::string(target_dir) + "/" + image_name;
-					std::string image_directory(target_dir);
-					std::string image_path_out = image_directory + "/" + image_name;
+					std::string image_path_out = "/mnt/shared/cpp.test/images/new/" + image_name;
 				alter_image(image_path_in,image_path_out);
 				}
 				image_pointer++;
