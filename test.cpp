@@ -54,8 +54,8 @@ int main(int argc, char** argv)
 		images_per_process = image_count/number_of_processes;
 		printf("There are  - %d - in a batch\n", images_per_process);
 		//SEND Workers Rank and batch size (MPI_Bcast)
-		MPI_Bcast(&images_per_process,1,MPI_INT,0,MPI_COMM_WORLD);
 	}
+		
 	else{
 	printf("I am process %d. I will process %d images\n", process_rank ,image_count);
 	//ELSE For each Worker
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 				//ADD random blur
 				// SAVE new image	
 	}
-		
+	MPI_Bcast(&images_per_process,1,MPI_INT,0,MPI_COMM_WORLD);
 	//FINALISE MPI
 	return MPI_Finalize();
 }
