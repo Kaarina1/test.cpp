@@ -54,7 +54,7 @@ Mat blur_image(const Mat& original_image){
 	int random_number = rand() % 7;
 	int blur_value = blur_array[random_number];
 	Mat new_image;
-	GaussianBlur(original_image, new_image, (blur_value,blur_value),0);
+	GaussianBlur(original_image, new_image, Size(blur_value,blur_value),0);
 
 	return new_image;
 }
