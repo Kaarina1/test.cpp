@@ -3,6 +3,7 @@
 #include "opencv2/imgproc.hpp"
 #include <vector>
 #include <dirent.h>
+#include <string>
 
 int count_images() {
     DIR* FD;        //Pointer for a directory
@@ -33,6 +34,50 @@ int count_images() {
     return image_count;
 }
 
+void process_image(int start, int image_amount){
+	DIR* FD;        //Pointer for a directory
+    struct dirent* image;   //Pointer to an image
+    const char* target_dir = "/mnt/shared/cpp.test/images/animals"; //Image file path
+	int image_pointer=start; //For image place
+	std::vector<std::string> image_names;
+	if (FD == NULL) //If there is no directory
+    {
+        fprintf(stderr, "Error: Failed to open input directory - %s\n", strerror(errno));
+        return 1;
+    }
+	
+	while ((image = readdir(FD)) && image_pointer<image_amount) //For all files in directory
+    {
+		//Skip directories
+		if(strcmp(image->d_name, ".")==0|| strcmp(image->d_name, "..")==0){
+			continue;
+		}
+		elif(image_counter<start){
+			image_counter++;
+		}
+		else{
+			image_names.push_back(image->d_name);
+			image_counter++;
+		}
+    }
+
+    /* Close the directory */
+    closedir(FD);
+	for(string image in image_names){
+		fprintf("image: %s , ", image);
+	}
+	
+	//FOR each image in batch given (from start to percentate amount)
+			//RESIZE
+			//DO n times
+				//AChange contrast
+				//Blur
+				//Rotate
+				// SAVE new image	
+	
+
+}
+
 int main(int argc, char** argv)
 {	//INITIALISE MPI
 	MPI_Init(&argc, &argv);
@@ -45,31 +90,29 @@ int main(int argc, char** argv)
 
 	int image_count;
 	int images_per_process;
+	int percent_input = sd::stoi(argv[1]);
+	printf("You entered %d \n",percent_input);
 	
 	//IF Master:
 	if (process_rank == 0) {
-		//Open image folder
-		
+		//Request image count
 		image_count = count_images();
-		//COUNT image files
-		printf("There are  - %d - number of images\n", image_count);
-		printf("There are  - %d - processes\n", number_of_processes);
-		//CALCULATE batch size = Number of images/ Number of processes
+		printf("There are %d images\n", image_count);
+		//CALCULATE batch size
 		images_per_process = image_count/(number_of_processes-1);
-		printf("There are  - %d - in a batch\n", images_per_process);
-		//SEND Workers Rank and batch size (MPI_Bcast)
 	}
+	//SEND Workers Rank and batch size
 	MPI_Bcast(&images_per_process,1,MPI_INT,0,MPI_COMM_WORLD);	
+	//For each worker
 	if(process_rank!=0){
-	printf("I am process %d. I will process %d images\n", process_rank ,images_per_process);
-	//ELSE For each Worker
-		//CALCULATE start = rank*batch size
-		//FOR each image in batch given (from start to batch size)
-			//RESIZE
-			//DO n times
-				//ADD random noise
-				//ADD random blur
-				// SAVE new image	
+		//Calculate the percentage to process
+		int image_amount;
+		image_amount = images_per_process*percent_input/100;
+		//Calculate the start pointer value
+		int start = process_rank*(image_amount)
+		
+		process_image(start, image_amount);
+		printf("I am rank %d. I processed %d images\n", process_rank ,images_per_process);
 	}
 	//FINALISE MPI
 	return MPI_Finalize();
