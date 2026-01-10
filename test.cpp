@@ -5,22 +5,26 @@
 #include <dirent.h>
 
 int count_images() {
-    DIR* FD;        /* represent the directory */
-    struct dirent* image;   /* represent the file */
-    const char* target_dir = "/mnt/shared/cpp.test/images"; /* current directory */
-	int image_count = 0;
-    /* Scanning the target directory */
-    FD = opendir(target_dir);
-    if (FD == NULL)
+    DIR* FD;        //Pointer for a directory
+    struct dirent* image;   //Pointer to an image
+    const char* target_dir = "/mnt/shared/cpp.test/images"; //Image file path
+	int image_count = 0; 
+    FD = opendir(target_dir); //Pointing to directory
+    if (FD == NULL) //If there is no directory
     {
         fprintf(stderr, "Error: Failed to open input directory - %s\n", strerror(errno));
         return 1;
     }
 
     /* Reading object (files, directories ...) from the folder */
-    while ((image = readdir(FD)))
+    while ((image = readdir(FD))) //For all files in directory
     {
-		image_count++;
+		if(strcmp(image->d_name, ".")==0|| strcmp(image->d_name, "..")==0){
+			continue;
+		}
+		else{
+			image_count++;
+		}
     }
 
     /* Close the directory */
