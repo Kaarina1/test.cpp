@@ -1,6 +1,7 @@
 #include <iostream>
 #include <mpi.h>
 #include "opencv2/imgproc.hpp"
+#include "opencv2/imgcodecs.hpp"
 #include <vector>
 #include <dirent.h>
 #include <string>
@@ -36,9 +37,8 @@ int count_images() {
     return image_count;
 }
 
-void alter_image(const std::string& image_path){
-	Mat image_data = imread(image_path);
-	std::string image_path = std::string(target_dir) + "/" + image_name;
+void alter_image(const std::string& image_path_in,const std::string& image_path_out){
+	Mat image_data = imread(image_path);	
 	imwrite(image_path,image_data);
 }
 
@@ -66,8 +66,10 @@ void process_images(int start, int image_amount){
 			}
 			else{
 				for(std::string image_name : image_names){
-				std::string image_path = std::string(target_dir) + "/" + image_name;
-				alter_image(image_path);
+					std::string image_path_in = std::string(target_dir) + "/" + image_name;
+					std::string image_directory(target_dir);
+					std::string image_path_out = image_directory + "/" + image_name;
+				alter_image(image_path_in,image_path_out);
 				}
 				image_pointer++;
 			}
