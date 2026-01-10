@@ -38,7 +38,8 @@ void process_image(int start, int image_amount){
 	DIR* FD;        //Pointer for a directory
     struct dirent* image;   //Pointer to an image
     const char* target_dir = "/mnt/shared/cpp.test/images/animals"; //Image file path
-	int image_pointer=start; //For image place
+	int image_pointer=0; //For image place
+	int end = start+image_amount;
 	std::vector<std::string> image_names;
 	if (FD == NULL) //If there is no directory
     {
@@ -46,25 +47,25 @@ void process_image(int start, int image_amount){
         return 1;
     }
 	
-	while ((image = readdir(FD)) && image_pointer<image_amount) //For all files in directory
+	while ((image = readdir(FD)) && image_pointer<end) //For all files in directory
     {
 		//Skip directories
 		if(strcmp(image->d_name, ".")==0|| strcmp(image->d_name, "..")==0){
 			continue;
 		}
-		elif(image_counter<start){
-			image_counter++;
+		else if(image_pointer<start){
+			image_pointer++;
 		}
 		else{
 			image_names.push_back(image->d_name);
-			image_counter++;
+			image_pointer++;
 		}
     }
 
     /* Close the directory */
     closedir(FD);
 	for(std::string image : image_names){
-		printf("image: %s , ", image.c_string());
+		printf("image: %s , ", image.c_str());
 	}
 	
 	//FOR each image in batch given (from start to percentate amount)
