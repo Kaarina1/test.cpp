@@ -38,11 +38,15 @@ int main(int argc, char** argv)
 	MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
 		// Get Rank of process (MPI_COMM_rank)
 	MPI_Comm_size(MPI_COMM_WORLD, &number_of_processes);
+
+	int image_count;
+	int images_per_process;
+	
 	//IF Master:
 	if (process_rank == 0) {
 		//Open image folder
 		
-		int image_count = count_images();
+		image_count = count_images();
 		//COUNT image files
 		printf("There are  - %d\n - number of images", image_count);
 		//CALCULATE batch size = Number of images/ Number of processes
