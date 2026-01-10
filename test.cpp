@@ -52,6 +52,7 @@ int main(int argc, char** argv)
 		printf("There are  - %d - processes\n", number_of_processes);
 		//CALCULATE batch size = Number of images/ Number of processes
 		images_per_process = image_count/number_of_processes;
+		printf("There are  - %d - in a batch\n", images_per_process);
 		//SEND Workers Rank and batch size (MPI_Bcast)
 		MPI_Bcast(&images_per_process,1,MPI_INT,0,MPI_COMM_WORLD);
 	}
