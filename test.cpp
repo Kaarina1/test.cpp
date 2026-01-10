@@ -65,7 +65,7 @@ void alter_image(const std::string& image_path_in,const std::string& image_path_
 	Mat resized_image;
 	resize(image_data, resized_image,Size(300,300));
 
-	Mat blurred_image = blurred_image(resized_image);
+	Mat blurred_image = blur_image(resized_image);
 	
 	Mat rotated_image = rotate_image(blurred_image);
 	
