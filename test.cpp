@@ -38,8 +38,13 @@ int count_images() {
 }
 
 void alter_image(const std::string& image_path_in,const std::string& image_path_out){
-	Mat image_data = imread(image_path_in);	
-	imwrite(image_path_out,image_data);
+	Mat image_data = imread(image_path_in);//get image
+
+	
+	
+
+	
+	imwrite(image_path_out,image_data);//save new image
 }
 
 void process_images(int start, int image_amount){
@@ -65,10 +70,11 @@ void process_images(int start, int image_amount){
 				image_pointer++;
 			}
 			else{
+				image_names.push_back(image->d_name);
 				for(std::string image_name : image_names){
 					std::string image_path_in = std::string(target_dir) + "/" + image_name;
 					std::string image_path_out = "/mnt/shared/cpp.test/images/new/" + image_name;
-				alter_image(image_path_in,image_path_out);
+					alter_image(image_path_in,image_path_out);
 				}
 				image_pointer++;
 			}
@@ -109,7 +115,7 @@ int main(int argc, char** argv)
 		int image_amount;
 		image_amount = images_per_process*percent_input/100;
 		//Calculate the start pointer value
-		int start = process_rank*(image_amount);
+		int start = (process_rank-1)*(image_amount);
 		
 		process_images(start, image_amount);
 		printf("I am rank %d. I processed %d images\n", process_rank ,images_per_process);
