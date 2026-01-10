@@ -38,12 +38,12 @@ int count_images() {
 }
 
 Mat rotate_image(const Mat& original_image){
-	int rand = rand() % 91;
-	int Height = before_rotation.rows / 2;//getting middle point of rows//
-    int Width = before_rotation.cols / 2;//getting middle point of height//
-	Mat rotation_matrix = getRotationMatrix2D(Point(Width, Height), rand, 1);//affine transformation matrix for 2D rotation//
+	int random_number = rand() % 91;
+	int Height = original_image.rows / 2;//getting middle point of rows//
+    int Width = original_image.cols / 2;//getting middle point of height//
+	Mat rotation_matrix = getRotationMatrix2D(Point(Width, Height), random_number, 1);//affine transformation matrix for 2D rotation//
     Mat new_image;//declaring a matrix for rotated image
-    warpAffine(original_image, new_image, for_Rotation, original_image.size());//applying affine transformation//
+    warpAffine(original_image, new_image, rotation_matrix, original_image.size());//applying affine transformation//
 
 	return new_image;
 
@@ -53,7 +53,7 @@ Mat rotate_image(const Mat& original_image){
 void alter_image(const std::string& image_path_in,const std::string& image_path_out){
 	Mat image_data = imread(image_path_in);//get image
 
-	Mat rotated_image = rotate_image();
+	Mat rotated_image = rotate_image(image_data);
 	
 
 	
