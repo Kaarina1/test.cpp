@@ -60,10 +60,10 @@ Mat blur_image(const Mat& original_image){
 }
 
 Mat contrast_image(const Mat& original_image){
-	int contrast_value = ((rand() % 301)-150)/100;
-	int brightness_value== ((rand() % 201)-100);
+	double contrast_value = ((rand() % 301)-150)/100;
+	int brightness_value= ((rand() % 201)-100);
 	Mat new_image;
-	original_image.convertTo(new_image,contrast_value,brightness_value);
+	original_image.convertTo(new_image,-1,contrast_value,brightness_value);
 	return new_image;
 }
 
