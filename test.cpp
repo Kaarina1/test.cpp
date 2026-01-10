@@ -7,7 +7,7 @@
 int count_images() {
     DIR* FD;        //Pointer for a directory
     struct dirent* image;   //Pointer to an image
-    const char* target_dir = "/mnt/shared/cpp.test/images"; //Image file path
+    const char* target_dir = "/mnt/shared/cpp.test/images/animals"; //Image file path
 	int image_count = 0; 
     FD = opendir(target_dir); //Pointing to directory
     if (FD == NULL) //If there is no directory
