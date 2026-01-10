@@ -5,6 +5,8 @@
 #include <dirent.h>
 #include <string>
 
+using namespace cv;
+
 int count_images() {
     DIR* FD;        //Pointer for a directory
     struct dirent* image;   //Pointer to an image
@@ -34,49 +36,45 @@ int count_images() {
     return image_count;
 }
 
-void process_image(int start, int image_amount){
+void alter_image(const std::string& image_path){
+	Mat image_data = imread(image_path);
+	std::string image_path = std::string(target_dir) + "/" + image_name;
+	imwrite(image_path,image_data);
+}
+
+void process_images(int start, int image_amount){
 	DIR* FD;        //Pointer for a directory
     struct dirent* image;   //Pointer to an image
     const char* target_dir = "/mnt/shared/cpp.test/images/animals"; //Image file path
+	FD = opendir(target_dir); //Pointing to directory
 	int image_pointer=0; //For image place
 	int end = start+image_amount;
 	std::vector<std::string> image_names;
 	if (FD == NULL) //If there is no directory
     {
         fprintf(stderr, "Error: Failed to open input directory - %s\n", strerror(errno));
-        return 1;
     }
-	
-	while ((image = readdir(FD)) && image_pointer<end) //For all files in directory
-    {
-		//Skip directories
-		if(strcmp(image->d_name, ".")==0|| strcmp(image->d_name, "..")==0){
-			continue;
-		}
-		else if(image_pointer<start){
-			image_pointer++;
-		}
-		else{
-			image_names.push_back(image->d_name);
-			image_pointer++;
-		}
-    }
-
+	else{
+		while ((image = readdir(FD)) && image_pointer<end) //For all files in directory
+	    {
+			//Skip directories
+			if(strcmp(image->d_name, ".")==0|| strcmp(image->d_name, "..")==0){
+				continue;
+			}
+			else if(image_pointer<start){
+				image_pointer++;
+			}
+			else{
+				for(std::string image_name : image_names){
+				std::string image_path = std::string(target_dir) + "/" + image_name;
+				alter_image(image_path);
+				}
+				image_pointer++;
+			}
+	    }
+	}
     /* Close the directory */
     closedir(FD);
-	for(std::string image : image_names){
-		printf("image: %s , ", image.c_str());
-	}
-	
-	//FOR each image in batch given (from start to percentate amount)
-			//RESIZE
-			//DO n times
-				//AChange contrast
-				//Blur
-				//Rotate
-				// SAVE new image	
-	
-
 }
 
 int main(int argc, char** argv)
@@ -112,7 +110,7 @@ int main(int argc, char** argv)
 		//Calculate the start pointer value
 		int start = process_rank*(image_amount);
 		
-		process_image(start, image_amount);
+		process_images(start, image_amount);
 		printf("I am rank %d. I processed %d images\n", process_rank ,images_per_process);
 	}
 	//FINALISE MPI
