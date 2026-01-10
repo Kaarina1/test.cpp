@@ -46,16 +46,26 @@ Mat rotate_image(const Mat& original_image){
     warpAffine(original_image, new_image, rotation_matrix, original_image.size());//applying affine transformation//
 
 	return new_image;
-
 		  
+}
+
+Mat blur_image(const Mat& original_image){
+	int blur_array[6] = {1,3,5,7,9,11};
+	int random_number = rand() % 7;
+	int blur_value = blur_array[random_number];
+	Mat new_image = GaussianBlur(original_image,(blur_value,blur_value),0);
+
+	return new_image;
 }
 
 void alter_image(const std::string& image_path_in,const std::string& image_path_out){
 	Mat image_data = imread(image_path_in);//get image
 
-	Mat rotated_image = rotate_image(image_data);
-	
+	Mat resized_image = resize(image_data, (300,300));
 
+	Mat blurred_image = blurred_image(resized_image);
+	
+	Mat rotated_image = rotate_image(blurred_image);
 	
 	imwrite(image_path_out,rotated_image);//save new image
 }
