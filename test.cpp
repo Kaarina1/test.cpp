@@ -63,8 +63,8 @@ void process_image(int start, int image_amount){
 
     /* Close the directory */
     closedir(FD);
-	for(string image in image_names){
-		fprintf("image: %s , ", image);
+	for(std::string image : image_names){
+		printf("image: %s , ", image);
 	}
 	
 	//FOR each image in batch given (from start to percentate amount)
