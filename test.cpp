@@ -51,13 +51,22 @@ Mat rotate_image(const Mat& original_image){
 
 Mat blur_image(const Mat& original_image){
 	int blur_array[6] = {1,3,5,7,9,11};
-	int random_number = rand() % 7;
+	int random_number = rand() % 6;
 	int blur_value = blur_array[random_number];
 	Mat new_image;
 	GaussianBlur(original_image, new_image, Size(blur_value,blur_value),0);
 
 	return new_image;
 }
+
+Mat contrast_image(const Mat& original_image){
+	int contrast_value = ((rand() % 301)-150)/100;
+	int brightness_value== ((rand() % 201)-100);
+	Mat new_image;
+	original_image.convertTo(new_image,contrast_value,brightness_value);
+	return new_image;
+}
+
 
 void alter_image(const std::string& image_path_in,const std::string& image_path_out){
 	Mat image_data = imread(image_path_in);//get image
@@ -66,8 +75,10 @@ void alter_image(const std::string& image_path_in,const std::string& image_path_
 	resize(image_data, resized_image,Size(300,300));
 
 	Mat blurred_image = blur_image(resized_image);
+
+	Mat contrasted_image = contrast_image(blurred_image);
 	
-	Mat rotated_image = rotate_image(blurred_image);
+	Mat rotated_image = rotate_image(contrasted_image);
 	
 	imwrite(image_path_out,rotated_image);//save new image
 }
