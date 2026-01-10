@@ -49,6 +49,7 @@ int main(int argc, char** argv)
 		image_count = count_images();
 		//COUNT image files
 		printf("There are  - %d - number of images\n", image_count);
+		printf("There are  - %d - processes\n", number_of_processes);
 		//CALCULATE batch size = Number of images/ Number of processes
 		images_per_process = image_count/number_of_processes;
 		//SEND Workers Rank and batch size (MPI_Bcast)
