@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 	}
 		
 	else{
-	printf("I am process %d. I will process %d images\n", process_rank ,image_count);
+	printf("I am process %d. I will process %d images\n", process_rank ,images_per_process);
 	//ELSE For each Worker
 		//CALCULATE start = rank*batch size
 		//FOR each image in batch given (from start to batch size)
