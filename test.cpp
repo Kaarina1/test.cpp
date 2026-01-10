@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 
 	int image_count;
 	int images_per_process;
-	int percent_input = sd::stoi(argv[1]);
+	int percent_input = std::stoi(argv[1]);
 	printf("You entered %d \n",percent_input);
 	
 	//IF Master:
@@ -109,7 +109,7 @@ int main(int argc, char** argv)
 		int image_amount;
 		image_amount = images_per_process*percent_input/100;
 		//Calculate the start pointer value
-		int start = process_rank*(image_amount)
+		int start = process_rank*(image_amount);
 		
 		process_image(start, image_amount);
 		printf("I am rank %d. I processed %d images\n", process_rank ,images_per_process);
