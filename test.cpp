@@ -50,12 +50,12 @@ int main(int argc, char** argv)
 		//COUNT image files
 		printf("There are  - %d\n - number of images", image_count);
 		//CALCULATE batch size = Number of images/ Number of processes
-		images_per_process = image_count/number_of_processes
+		images_per_process = image_count/number_of_processes;
 		//SEND Workers Rank and batch size (MPI_Bcast)
 		MPI_Bcast(&images_per_process,1,MPI_INT,0,MPI_COMM_WORLD)
 	}
 	else{
-	printf("I am process %d\n. I will process %\n images", process_rank ,image_count);
+	printf("I am process %d\n. I will process %d\n images", process_rank ,image_count);
 	//ELSE For each Worker
 		//CALCULATE start = rank*batch size
 		//FOR each image in batch given (from start to batch size)
