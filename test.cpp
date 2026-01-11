@@ -63,7 +63,7 @@ Mat contrast_image(const Mat& original_image){
 	double contrast_value = (rand() % 151)/100;
 	double brightness_value = (rand() % 201)-100;
 	Mat new_image;
-	original_image.convertTo(new_image,-1,brightness_value,0);
+	original_image.convertTo(new_image,-1,contrast_value,brightness_value);
 	return new_image;
 }
 
