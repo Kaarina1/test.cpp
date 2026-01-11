@@ -158,7 +158,7 @@ int main(int argc, char** argv)
 
 	if(process_rank==0){
 		double total_time=end-start;
-		printf("Time taken: %d" ,total_time);
+		printf("Time taken: %f" ,total_time);
 	}
 	//FINALISE MPI
 	return MPI_Finalize();
