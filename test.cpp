@@ -107,17 +107,17 @@ void process_images(int start, int image_amount){
 			}
 			else{
 				image_names.push_back(image->d_name);
-				for(std::string image_name : image_names){
-
-					for(int i=0; i<10; i++){
-					std::string image_path_in = std::string(target_dir) + "/" + image_name;
-					std::string image_path_out = "/mnt/shared/cpp.test/images/new/" + i + "_" image_name;
-					alter_image(image_path_in,image_path_out);
-					}				
-				}
 				image_pointer++;
 			}
 	    }
+		for(std::string image_name : image_names){
+
+					for(int i=0; i<10; i++){
+					std::string image_path_in = std::string(target_dir) + "/" + image_name;
+					std::string image_path_out = "/mnt/shared/cpp.test/images/new/" + std::to_string(i) + "_" + image_name;
+					alter_image(image_path_in,image_path_out);
+					}				
+		}
 	}
     /* Close the directory */
     closedir(FD);
