@@ -60,9 +60,10 @@ Mat blur_image(const Mat& original_image){
 }
 
 Mat contrast_image(const Mat& original_image){
-	double contrast_value = ((rand() % 301)-150)/100;
+	double contrast_value = (rand() % 151)/100;
+	double brightness_value = (rand() % 201)-100;
 	Mat new_image;
-	original_image.convertTo(new_image,-1,contrast_value,0);
+	original_image.convertTo(new_image,-1,brightness_value,0);
 	return new_image;
 }
 
@@ -131,7 +132,7 @@ int main(int argc, char** argv)
 
 	int image_count;
 	int images_per_process;
-	double percent_input = std::stoi(argv[1]);
+	double percent_input = std::stod(argv[1]);
 	//IF Master:
 	if (process_rank == 0) {
 		//Request image count
@@ -147,7 +148,7 @@ int main(int argc, char** argv)
 	if(process_rank!=0){
 		//Calculate the percentage to process
 		int image_amount;
-		image_amount = images_per_process*percent_input/100;
+		image_amount = (images_per_process*percent_input)/100;
 		//Calculate the start pointer value
 		int start = (process_rank-1)*(image_amount);
 		
