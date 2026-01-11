@@ -132,7 +132,7 @@ int main(int argc, char** argv)
 
 	int image_count;
 	int images_per_process;
-	int percent_input = std::stoi(argv[1]);
+	double percent_input = std::stoi(argv[1]);
 	//IF Master:
 	if (process_rank == 0) {
 		//Request image count
@@ -159,7 +159,7 @@ int main(int argc, char** argv)
 
 	if(process_rank==0){
 		double total_time=end-start;
-		printf("Time taken: %f" ,total_time);
+		printf("Time taken: %f \n" ,total_time);
 	}
 	//FINALISE MPI
 	return MPI_Finalize();
