@@ -154,6 +154,7 @@ int main(int argc, char** argv)
 		
 		process_images(start, image_amount);
 	}
+	MPI_Barrier(MPI_COMM_WORLD);
 	double end = MPI_Wtime();
 
 	if(process_rank==0){
