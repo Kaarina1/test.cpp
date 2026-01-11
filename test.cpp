@@ -61,7 +61,7 @@ Mat blur_image(const Mat& original_image){
 
 Mat contrast_image(const Mat& original_image){
 	double contrast_value = ((rand() % 301)-150)/100;
-	int brightness_value= ((rand() % 201)-100);
+	int brightness_value= ((rand() % 101)-50);
 	Mat new_image;
 	original_image.convertTo(new_image,-1,contrast_value,brightness_value);
 	return new_image;
@@ -133,18 +133,17 @@ int main(int argc, char** argv)
 	int image_count;
 	int images_per_process;
 	int percent_input = std::stoi(argv[1]);
-	printf("You entered %d \n",percent_input);
-	
 	//IF Master:
 	if (process_rank == 0) {
 		//Request image count
 		image_count = count_images();
-		printf("There are %d images\n", image_count);
 		//CALCULATE batch size
 		images_per_process = image_count/(number_of_processes-1);
 	}
 	//SEND Workers Rank and batch size
 	MPI_Bcast(&images_per_process,1,MPI_INT,0,MPI_COMM_WORLD);	
+	
+	double start = MPI_Wtime();
 	//For each worker
 	if(process_rank!=0){
 		//Calculate the percentage to process
@@ -154,7 +153,12 @@ int main(int argc, char** argv)
 		int start = (process_rank-1)*(image_amount);
 		
 		process_images(start, image_amount);
-		printf("I am rank %d. I processed %d images\n", process_rank ,images_per_process);
+	}
+	double end = MPI_Wtime();
+
+	if(process_rank==0){
+		double total_time=end-start;
+		printf("Time taken: %d" ,total_time);
 	}
 	//FINALISE MPI
 	return MPI_Finalize();
